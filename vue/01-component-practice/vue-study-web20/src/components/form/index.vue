@@ -24,7 +24,7 @@ import KFormItem from "@/components/form/KFormItem.vue";
 import KForm from "@/components/form/KForm.vue";
 import create from '@/utils/create'
 import Notice from '@/components/Notice.vue';
-
+import Toast from '@/components/toast/index.js'
 export default {
   components: {
     ElementTest,
@@ -61,6 +61,11 @@ export default {
         // } else {
         //   alert("校验失败！");
         // }
+
+        Toast({
+            msg: 'this is toast',
+            duration: 1000
+        }).show()
       });
     }
   }
