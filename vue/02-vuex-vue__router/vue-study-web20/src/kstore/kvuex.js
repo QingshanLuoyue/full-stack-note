@@ -3,13 +3,14 @@ let Vue
 // 声明Store类
 class Store {
   constructor(options) {
+    
     this._vm = new Vue({
-      // data中的值都会做响应化处理
-      data: {
-        $$state: options.state
-      }
+        // data中的值都会做响应化处理
+        data: {
+          $$state: options.state
+        }
     })
-
+    this.getters = {}
     // 保存mutations
     this._mutations = options.mutations
     this._actions = options.actions
@@ -23,6 +24,38 @@ class Store {
     this.dispatch = function boundDispatch(type, payload) {
       dispatch.call(store, type, payload)
     }
+
+    // 暗号：天王盖地虎
+    Object.keys(options.getters).forEach(key => {
+        Object.defineProperty(this.getters, key, {
+            get: () => options.getters[key](this.state)
+        })
+    })
+    // const computed = {}
+    // Object.keys(options.getters).forEach(key => {
+    //     computed[key] = function() {
+    //         return options.getters[key](this.state)
+    //     }
+    // })
+    // store.getters = {}
+    // store._vm = new Vue({
+    //     // data中的值都会做响应化处理
+    //     data: {
+    //       $$state: options.state
+    //     },
+    //     computed
+    //   })
+    // Object.keys(options.getters).forEach(key => {
+    //     // computed[key] = function() {
+    //     //     return options.getters[key](store)
+    //     // }
+    //     // Object.defineProperty(this.getters, key, {
+    //     //     get: () => options.getters[key](this.state)
+    //     // })
+    //     Object.defineProperty(store.getters, key, {
+    //         get: () => store._vm[key]
+    //     })
+    // }) 
   }
 
   // 存取器使之成为只读
