@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>TodoMVC</title>
+    <script src="https://unpkg.com/vue"></script>
+    <link rel="stylesheet" type="text/css" href="https://unpkg.com/todomvc-app-css@2.2.0/index.css" />
+    <style>
+        [v-cloak] {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <section class="todoapp">
+        <header class="header">
+            <h1>todos</h1>
+            <input class="new-todo" autofocus autocomplete="off" placeholder="What needs to be done?" v-model="newTodo"
+                @keyup.enter="addTodo" />
+        </header>
+        <section class="main" v-show="todos.length" v-cloak>
+            <input id="toggle-all" class="toggle-all" type="checkbox" v-model="allDone" />
+            <label for="toggle-all"></label>
+            <ul class="todo-list">
+                <li v-for="todo in filteredTodos" class="todo" :key="todo.id"
+                    :class="{ completed: todo.completed, editing: todo == editedTodo }">
+                    <div class="view">
+                        <input class="toggle" type="checkbox" v-model="todo.completed" />
+                        <label @dblclick="editTodo(todo)">{{ todo.title }}</label>
+                        <button class="destroy" @click="removeTodo(todo)"></button>
+                    </div>
+                    <input class="edit" type="text" v-model="todo.title" v-todo-focus="todo == editedTodo"  @blur="doneEdit(todo)"
+                        @keyup.enter="doneEdit(todo)" @keyup.esc="cancelEdit(todo)" />
+                </li>
+            </ul>
+        </section>
+        <footer class="footer" v-show="todos.length" v-cloak>
+            <span class="todo-count">
+                <strong>{{ remaining }}</strong> {{ remaining === 1 ? 'item' : 'items' }} left  
+            </span>
+            <ul class="filters">
+                <li>
+                    <a href="#/all" :class="{ selected: visibility == 'all' }">All</a>
+                </li>
+                <li>
+                    <a href="#/active" :class="{ selected: visibility == 'active' }">Active</a>
+                </li>
+                <li>
+                    <a href="#/completed" :class="{ selected: visibility == 'completed' }">Completed</a>
+                </li>
+            </ul>
+            <button class="clear-completed" @click="removeCompleted" v-show="todos.length > remaining">
+                Clear completed
+            </button>
+        </footer>
+    </section>
+    <script src="../dist/vue.global.js"></script>
+    <script>
+        let STORAGE_KEY = 'todos-vuejs-2.0';
+        // 本地缓存  存取方法
+        let todoStorage = {
+            fetch: function () {
+                let todos = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+                todos.forEach(function (todo, index) {
+                    todo.id = index;
+                });
+                todoStorage.uid = todos.length;
+                return todos;
+            },
+            save: function (todos) {
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(todos));
+            }
+        };
+
+        // visibility filters
+        // 筛选 全部、已做、未做方法
+        let filters = {
+            all: function (todos) {
+                return todos;
+            },
+            active: function (todos) {
+                return todos.filter(function (todo) {
+                    return !todo.completed;
+                });
+            },
+            completed: function (todos) {
+                return todos.filter(function (todo) {
+                    return todo.completed;
+                });
+            }
+        };
+
+        const { createApp, reactive, computed, toRefs, watch } = Vue
+        const app = createApp({
+            directives: {
+                'todo-focus': function (el, binding) {
+                    if (binding.value) {
+                        el.focus();
+                    }
+                }
+            },
+            setup() {
+                // 基础响应 data
+                const state = reactive({
+                    todos: todoStorage.fetch(),
+                    newTodo: '',
+                    editedTodo: null,
+                    visibility: 'all',
+                    beforeEditCache: ''
+                })
+
+                // methods 开始
+                // 添加
+                function addTodo() {
+                    var value = state.newTodo && state.newTodo.trim();
+                    if (!value) {
+                        return;
+                    }
+                    state.todos.push({
+                        id: todoStorage.uid++,
+                        title: value,
+                        completed: false
+                    });
+                    state.newTodo = '';
+                }
+                // 删除
+                function removeTodo(todo) {
+                    state.todos.splice(state.todos.indexOf(todo), 1);
+                }
+                // 编辑
+                function editTodo(todo) {
+                    state.beforeEditCache = todo.title;
+                    state.editedTodo = todo;
+                }
+                // 保存编辑
+                function doneEdit(todo) {
+                    if (!state.editedTodo) {
+                        return;
+                    }
+                    state.editedTodo = null;
+                    todo.title = todo.title.trim();
+                    if (!todo.title) {
+                        removeTodo(todo);
+                    }
+                }
+                // 取消编辑
+                function cancelEdit(todo) {
+                    state.editedTodo = null;
+                    todo.title = state.beforeEditCache;
+                }
+                // 移除已完成的 todo
+                function removeCompleted() {
+                    state.todos = filters.active(state.todos);
+                }
+                // methods 结束
+
+                // watch
+                watch(
+                    () => state.todos,
+                    {
+                        handler: function (todos) {
+                            todoStorage.save(todos);
+                        },
+                        deep: true
+
+                    }
+                )
+
+                // computed
+                const filteredTodos = computed(() => {
+                    return filters[state.visibility](state.todos);
+                })
+                const remaining = computed(() => {
+                    return filters.active(state.todos).length;
+                })
+                const allDone = computed({
+                    get: function () {
+                        return remaining === 0;
+                    },
+                    set: function (value) {
+                        state.todos.forEach(function (todo) {
+                            todo.completed = value;
+                        });
+                    }
+                })
+                return {
+                    // data
+                    ...toRefs(state),
+                    // methods
+                    addTodo,
+                    removeTodo,
+                    editTodo,
+                    doneEdit,
+                    cancelEdit,
+                    removeCompleted,
+                    // computed
+                    filteredTodos,
+                    remaining,
+                    allDone
+                }
+            }
+        }).mount('.todoapp');
+
+
+        // 监听 hash 改变
+        function onHashChange() {
+            var visibility = window.location.hash.replace(/#\/?/, '');
+            if (filters[visibility]) {
+                app.visibility = visibility;
+            } else {
+                window.location.hash = '';
+                app.visibility = 'all';
+            }
+        }
+        window.addEventListener('hashchange', onHashChange);
+        onHashChange();
+    </script>
+</body>
+
+</html>
