@@ -1,58 +1,54 @@
 import React, {useRef} from "react";
+
 class FormStore {
-  constructor(props) {
-    this.store = {};
-    this.fieldEntities = [];
-    this.calllbacks = {};
+  constructor() {
+    this.store = {}; // 存储数据，比如说username password
+    this.fieldEnetities = [];
+    this.callbacks = {};
   }
 
-  setCallback = callback => {
-    this.calllbacks = {
-      ...callback,
-      ...this.calllbacks
-    };
-  };
-  registerField = field => {
-    this.fieldEntities.push(field);
+  registerEntity = entity => {
+    this.fieldEnetities.push(entity);
     return () => {
-      this.fieldEntities = this.fieldEntities.filter(item => item != field);
-      delete this.store[field.props.name];
+      this.fieldEnetities = this.fieldEnetities.filter(item => item !== entity);
+      delete this.store[entity.props.name];
     };
   };
 
-  getFieldValue = name => {
-    return this.store[name];
+  setCallback = callback => {
+    this.callbacks = {
+      ...this.callbacks,
+      ...callback
+    };
   };
 
-  getFieldsValue = name => {
-    return this.store;
-  };
+  setFieldValue = () => {};
 
-  // 修改store
   setFieldsValue = newStore => {
     this.store = {
-      // ! 调整下顺序
-      ...newStore,
-      ...this.store
+      ...this.store,
+      ...newStore
     };
-    // store已经更新，但是我们希望组件也跟着更新
-    this.fieldEntities.forEach(enetity => {
-      const {name} = enetity.props;
+    console.log("setFieldsValue", this.store, this.fieldEnetities); //sy-log
+    // 对应的组件要进行更新
+    this.fieldEnetities.forEach(entity => {
+      const {name} = entity.props;
+      console.log("omg", name); //sy-log
+
       Object.keys(newStore).forEach(key => {
         if (key === name) {
-          enetity.onStoreChange();
+          entity.onStoreChange();
         }
       });
     });
-    console.log("store", this.store); //sy-log
   };
 
   validate = () => {
     let err = [];
     // todo
-    this.fieldEntities.forEach(entity => {
+    this.fieldEnetities.forEach(entity => {
       const {name, rules} = entity.props;
-      let value = this.store[name];
+      let value = this.getFieldValue(name);
       let rule = rules && rules[0];
       if (rule && rule.required && (value === undefined || value === "")) {
         //  出错
@@ -66,33 +62,46 @@ class FormStore {
   };
 
   submit = () => {
+    console.log("this.", this.fieldEnetities); //sy-log
     let err = this.validate();
+    // 在这里校验 成功的话 执行onFinish ，失败执行onFinishFailed
+    const {onFinish, onFinishFailed} = this.callbacks;
     if (err.length === 0) {
-      this.calllbacks.onFinish(this.store);
+      // 成功的话 执行onFinish
+      onFinish(this.getFiledsValue());
     } else if (err.length > 0) {
-      this.calllbacks.onFinishFailed(err);
+      // ，失败执行onFinishFailed
+      onFinishFailed(err);
     }
-    // 成功
-    // 失败
   };
-  getForm = () => {
+
+  // 取数据
+  getFieldValue = name => {
+    return this.store[name];
+  };
+  getFiledsValue = () => {
+    return this.store;
+  };
+  getForm() {
     return {
-      setCallback: this.setCallback,
-      submit: this.submit,
-      registerField: this.registerField,
+      registerEntity: this.registerEntity,
+      setFieldValue: this.setFieldValue,
+      setFieldsValue: this.setFieldsValue,
       getFieldValue: this.getFieldValue,
-      getFieldsValue: this.getFieldsValue,
-      setFieldsValue: this.setFieldsValue
+      submit: this.submit,
+      setCallback: this.setCallback
     };
-  };
+  }
 }
 
+// 自定义hook
 export default function useForm(form) {
   const formRef = useRef();
   if (!formRef.current) {
     if (form) {
       formRef.current = form;
     } else {
+      // new 一个
       const formStore = new FormStore();
       formRef.current = formStore.getForm();
     }

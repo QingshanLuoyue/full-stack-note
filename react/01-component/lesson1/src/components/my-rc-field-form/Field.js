@@ -1,37 +1,38 @@
-import React, {Component, cloneElement} from "react";
+import React, {Component} from "react";
 import FieldContext from "./FieldContext";
 
 export default class Field extends Component {
   static contextType = FieldContext;
   componentDidMount() {
-    this.cancelRegister = this.context.registerField(this);
+    const {registerEntity} = this.context;
+    this.cancelRegister = registerEntity(this);
   }
 
   componentWillUnmount() {
+    // 取消注册
     if (this.cancelRegister) {
       this.cancelRegister();
     }
   }
-
   onStoreChange = () => {
     this.forceUpdate();
   };
-  getControled = () => {
-    const {getFieldValue, setFieldsValue} = this.context;
+  getControlled = () => {
     const {name} = this.props;
+    const {setFieldsValue, getFieldValue} = this.context;
     return {
-      value: getFieldValue(name), //从store中取值
-      onChange: e => {
-        // 把新的参数值存到store中
-        const newValue = e.target.value;
-        setFieldsValue({[name]: newValue});
-        console.log("newValue", newValue); //sy-log
+      value: getFieldValue(name),
+      onChange: event => {
+        const newValue = event.target.value;
+        setFieldsValue({
+          [name]: newValue
+        });
       }
     };
   };
   render() {
     const {children} = this.props;
-    const returnChildNode = React.cloneElement(children, this.getControled());
+    const returnChildNode = React.cloneElement(children, this.getControlled());
     return returnChildNode;
   }
 }

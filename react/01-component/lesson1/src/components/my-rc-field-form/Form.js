@@ -1,17 +1,20 @@
 import React from "react";
-import useForm from "./useForm";
 import FieldContext from "./FieldContext";
+import useForm from "./useForm";
 
-export default function Form({form, children, onFinish, onFinishFailed}) {
+export default function Form({form, children, onFinish, onFinishFailed}, ref) {
   const [formInstance] = useForm(form);
+
+  React.useImperativeHandle(ref, () => formInstance);
+  console.log("formInstance", formInstance); //sy-log
   formInstance.setCallback({
     onFinish,
     onFinishFailed
   });
   return (
     <form
-      onSubmit={e => {
-        e.preventDefault();
+      onSubmit={event => {
+        event.preventDefault();
         formInstance.submit();
       }}>
       <FieldContext.Provider value={formInstance}>
