@@ -1,10 +1,20 @@
-import {createStore, applyMiddleware} from "redux";
+// import {createStore, applyMiddleware, combineReducers} from "redux";
 // import thunk from "redux-thunk";
 // import logger from "redux-logger";
 // import promise from "redux-promise";
-// import {createStore, applyMiddleware} from "../kredux";
+import {createStore, applyMiddleware, combineReducers} from "../kredux";
 
 import isPromise from "is-promise";
+
+// 暗号：毛里塔尼亚
+function todoReducer(state = [], action) {
+    switch (action.type) {
+      case "ADD_TODO":
+        return state.concat(action.text);
+      default:
+        return state;
+    }
+  }
 
 function countReducer(state = 0, action) {
   switch (action.type) {
@@ -18,10 +28,9 @@ function countReducer(state = 0, action) {
 }
 
 const store = createStore(
-  countReducer,
+  combineReducers({todo: todoReducer, count: countReducer}),
   applyMiddleware(thunk, logger, promise)
 );
-
 export default store;
 
 function logger({getState}) {

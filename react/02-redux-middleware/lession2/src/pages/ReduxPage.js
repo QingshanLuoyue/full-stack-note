@@ -41,7 +41,7 @@ export default class ReduxPage extends Component {
     return (
       <div>
         <h3>ReduxPage</h3>
-        <p>{store.getState()}</p>
+        <p>{store.getState().count}</p>
         <button onClick={this.add}>add</button>
         <button onClick={this.asyAdd}>asyAdd</button>
         <button onClick={this.promiseMinus}>promise minus</button>
