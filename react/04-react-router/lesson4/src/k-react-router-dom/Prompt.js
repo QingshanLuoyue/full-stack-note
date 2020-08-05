@@ -13,15 +13,18 @@ export default function Prompt({ message, when = false }) {
         return (
           <LifeCycle
             onMount={(self) => {
+              console.log('1 :>> ', 1)
               self.release = method(message)
             }}
             onUpdate={(self, prevProps) => {
               if (prevProps.message !== message) {
+                console.log('2 :>> ', 2)
                 self.release()
                 self.release = method(message)
               }
             }}
             onUnMount={(self) => {
+              console.log('3 :>> ', 3)
               self.release()
             }}
             message={message}
@@ -31,7 +34,6 @@ export default function Prompt({ message, when = false }) {
     </RouterContext.Consumer>
   )
 }
-
 
 class LifeCycle extends Component {
   componentDidMount() {
