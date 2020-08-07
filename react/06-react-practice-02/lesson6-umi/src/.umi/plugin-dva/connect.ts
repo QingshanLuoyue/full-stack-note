@@ -6,7 +6,7 @@ import { EffectsCommandMap, SubscriptionAPI } from 'dva';
 import { match } from 'react-router-dom';
 import { Location, LocationState, History } from 'history';
 
-export * from '/Users/gaoshaoyun/workspace/kkb-react/lesson6-umi/src/models/more';
+export * from 'D:/myproject/full-stack-note/react/06-react-practice-02/lesson6-umi/src/models/more';
 
 export interface Action<T = any> {
   type: T

@@ -1,6 +1,6 @@
 // @ts-nocheck
 /**
- * Base on https://github.com/umijs//Users/gaoshaoyun/workspace/kkb-react/lesson6-umi/node_modules/umi-request
+ * Base on https://github.com/umijs/D:/myproject/full-stack-note/react/06-react-practice-02/lesson6-umi/node_modules/umi-request
  */
 import {
   extend,
@@ -13,14 +13,14 @@ import {
   RequestResponse,
   RequestInterceptor,
   ResponseInterceptor,
-} from '/Users/gaoshaoyun/workspace/kkb-react/lesson6-umi/node_modules/umi-request';
+} from 'D:/myproject/full-stack-note/react/06-react-practice-02/lesson6-umi/node_modules/umi-request';
 // @ts-ignore
 
 import { ApplyPluginsType } from 'umi';
 import { history, plugin } from '../core/umiExports';
             
 import { message, notification } from 'antd';
-import useUmiRequest, { UseRequestProvider } from '/Users/gaoshaoyun/workspace/kkb-react/lesson6-umi/node_modules/@ahooksjs/use-request';
+import useUmiRequest, { UseRequestProvider } from 'D:/myproject/full-stack-note/react/06-react-practice-02/lesson6-umi/node_modules/@ahooksjs/use-request';
 import {
   BaseOptions,
   BasePaginatedOptions,
@@ -36,7 +36,7 @@ import {
   PaginatedOptionsWithFormat,
   PaginatedParams,
   PaginatedResult,
-} from '/Users/gaoshaoyun/workspace/kkb-react/lesson6-umi/node_modules/@ahooksjs/use-request/lib/types';
+} from 'D:/myproject/full-stack-note/react/06-react-practice-02/lesson6-umi/node_modules/@ahooksjs/use-request/lib/types';
 
 type ResultWithData<T = any> = { data: T; [key: string]: any };
 

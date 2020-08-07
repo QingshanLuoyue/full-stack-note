@@ -1,13 +1,13 @@
 // @ts-nocheck
 import React from 'react';
-import initialState from '/Users/gaoshaoyun/workspace/kkb-react/lesson6-umi/src/.umi/plugin-initial-state/models/initialState';
+import initialState from 'D:/myproject/full-stack-note/react/06-react-practice-02/lesson6-umi/src/.umi/plugin-initial-state/models/initialState';
 
 // @ts-ignore
-import Dispatcher from '/Users/gaoshaoyun/workspace/kkb-react/lesson6-umi/node_modules/@umijs/plugin-model/lib/helpers/dispatcher';
+import Dispatcher from 'D:/myproject/full-stack-note/react/06-react-practice-02/lesson6-umi/node_modules/@umijs/plugin-model/lib/helpers/dispatcher';
 // @ts-ignore
-import Executor from '/Users/gaoshaoyun/workspace/kkb-react/lesson6-umi/node_modules/@umijs/plugin-model/lib/helpers/executor';
+import Executor from 'D:/myproject/full-stack-note/react/06-react-practice-02/lesson6-umi/node_modules/@umijs/plugin-model/lib/helpers/executor';
 // @ts-ignore
-import { UmiContext } from '/Users/gaoshaoyun/workspace/kkb-react/lesson6-umi/node_modules/@umijs/plugin-model/lib/helpers/constant';
+import { UmiContext } from 'D:/myproject/full-stack-note/react/06-react-practice-02/lesson6-umi/node_modules/@umijs/plugin-model/lib/helpers/constant';
 
 export const models = { '@@initialState': initialState,  };
 

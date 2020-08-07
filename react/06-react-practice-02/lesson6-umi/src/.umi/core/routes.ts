@@ -1,44 +1,34 @@
 // @ts-nocheck
-import { ApplyPluginsType } from '/Users/gaoshaoyun/workspace/kkb-react/lesson6-umi/node_modules/@umijs/runtime';
+import { ApplyPluginsType } from 'D:/myproject/full-stack-note/react/06-react-practice-02/lesson6-umi/node_modules/@umijs/runtime';
 import { plugin } from './plugin';
 
 const routes = [
   {
     "path": "/",
-    "component": require('/Users/gaoshaoyun/workspace/kkb-react/lesson6-umi/src/.umi/plugin-layout/Layout.tsx').default,
+    "component": require('@/pages/layout/index').default,
     "routes": [
       {
         "path": "/",
-        "component": require('@/pages/layout/index').default,
+        "component": require('@/pages/index').default,
+        "exact": true
+      },
+      {
+        "path": "/about",
+        "component": require('@/pages/about').default,
+        "exact": true
+      },
+      {
+        "path": "/more",
+        "component": require('@/pages/more/index').default,
+        "exact": true
+      },
+      {
+        "path": "/product/:id",
+        "component": require('@/pages/product/_layout').default,
         "routes": [
           {
-            "path": "/",
-            "component": require('@/pages/index').default,
-            "exact": true
-          },
-          {
-            "path": "/about",
-            "component": require('@/pages/about').default,
-            "exact": true
-          },
-          {
-            "path": "/more",
-            "component": require('@/pages/more/index').default,
-            "exact": true
-          },
-          {
             "path": "/product/:id",
-            "component": require('@/pages/product/_layout').default,
-            "routes": [
-              {
-                "path": "/product/:id",
-                "component": require('@/pages/product/[id]').default,
-                "exact": true
-              }
-            ]
-          },
-          {
-            "component": require('@/pages/404').default,
+            "component": require('@/pages/product/[id]').default,
             "exact": true
           }
         ]

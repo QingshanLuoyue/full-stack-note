@@ -3,8 +3,8 @@ import './core/polyfill';
 import '@@/core/devScripts';
 import { plugin } from './core/plugin';
 import { createHistory } from './core/history';
-import { ApplyPluginsType } from '/Users/gaoshaoyun/workspace/kkb-react/lesson6-umi/node_modules/@umijs/runtime';
-import { renderClient } from '/Users/gaoshaoyun/workspace/kkb-react/lesson6-umi/node_modules/@umijs/renderer-react/dist/index.js';
+import { ApplyPluginsType } from 'D:/myproject/full-stack-note/react/06-react-practice-02/lesson6-umi/node_modules/@umijs/runtime';
+import { renderClient } from 'D:/myproject/full-stack-note/react/06-react-practice-02/lesson6-umi/node_modules/@umijs/renderer-react/dist/index.js';
 
 
 
@@ -23,6 +23,7 @@ const getClientRender = (args: { hot?: boolean } = {}) => plugin.applyPlugins({
         history: createHistory(args.hot),
         isServer: process.env.__IS_SERVER,
         rootElement: 'root',
+        defaultTitle: ``,
       },
     });
     return renderClient(opts);
