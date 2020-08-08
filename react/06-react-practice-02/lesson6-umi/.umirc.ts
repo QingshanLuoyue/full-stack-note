@@ -8,6 +8,7 @@ export default defineConfig({
             routes: [
                 { path: '/', component: '@/pages/index' },
                 { path: '/about', component: '@/pages/about' },
+                { path: '/table', component: '@/pages/table/index' },
                 { path: '/more', component: '@/pages/more/index' },
                 // { path: '/product/:id', component: '@/pages/product/[id]' },        
                 {

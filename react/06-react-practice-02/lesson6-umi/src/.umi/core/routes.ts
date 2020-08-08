@@ -18,6 +18,11 @@ const routes = [
         "exact": true
       },
       {
+        "path": "/table",
+        "component": require('@/pages/table/index').default,
+        "exact": true
+      },
+      {
         "path": "/more",
         "component": require('@/pages/more/index').default,
         "exact": true
