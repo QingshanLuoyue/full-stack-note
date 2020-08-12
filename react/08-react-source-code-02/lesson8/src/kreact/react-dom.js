@@ -64,12 +64,16 @@ function createNode(vnode) {
 }
 
 // 类组件
-function updateClassComponent(vnode) {
-  const {type, props} = vnode;
-  let cmp = new type(props);
-  const vvnode = cmp.render();
+// 暗号：加蓬
+function updateClassComponent(fiber) {
+  const {type, props} = fiber;  // 这里 fiber 代表一个节点，类型为 `类组件`
+  let cmp = new type(props);    // 实例化 `类组件` ，得到一个实例 `cmp`
+  const vnode = cmp.render();   // 执行实例 `cmp` 的 `render` 方法，得到虚拟节点 `vnode`
+                                // 该 vnode === `类组件` 转换后的虚拟节点（实际上也可称之为 `类组件` 的子虚拟节点）
+  const children = [vnode];
+  reconcileChildren(fiber, children) // 建立当前节点 fiber 和子级的关系
   // 生成node节点
-  const node = createNode(vvnode);
+  const node = createNode(vnode);
   return node;
 }
 
