@@ -16,6 +16,14 @@ export default function UseMemoPage(props) {
     }
     return sum
   }, [count])
+// const expensive = () => {
+//     console.log('compute')
+//     let sum = 0
+//     for (let i = 0; i < count; i++) {
+//       sum += i
+//     }
+//     return sum
+//   }
 
   return (
     <div>

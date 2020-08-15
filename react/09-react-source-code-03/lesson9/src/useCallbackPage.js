@@ -13,6 +13,13 @@ export default function UseCallbackPage(props) {
     }
     return sum
   }, [count])
+// const addClick = () => {
+//     let sum = 0
+//     for (let i = 0; i < count; i++) {
+//       sum += i
+//     }
+//     return sum
+//   }
 
   const [value, setValue] = useState('')
   return (

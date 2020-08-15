@@ -5,8 +5,8 @@
 import React, {Component, useState} from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
-import useCallbackPage from './useCallbackPage.js'
-import useMemoPage from './useMemoPage.js'
+import UseCallbackPage from './useCallbackPage'
+import UseMemoPage from './useMemoPage'
 class ClassComponent extends Component {
   static defaultProps = {
     color: "pink"
@@ -38,8 +38,8 @@ const jsx = (
     <a href="https://www.kaikeba.com/">开课吧</a>
     <ClassComponent name="class" color="red" />
     <FunctionComponent name="function" />
-    <useCallbackPage />
-    <useMemoPage />
+    <UseCallbackPage />
+    <UseMemoPage />
     {/* {[1, 2].map(item => (
       <React.Fragment key={item}>{item}</React.Fragment>
     ))} */}
