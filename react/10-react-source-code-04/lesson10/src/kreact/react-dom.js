@@ -226,6 +226,7 @@ function placeChild(newFiber, lastPlacedIndex, newIdx, shouldTrackSideEffects) {
   }
 }
 
+// 暗号：几内亚
 function reconcileChildren(returnFiber, newChildren) {
   let previousNewFiber = null;
 
@@ -248,7 +249,7 @@ function reconcileChildren(returnFiber, newChildren) {
   for (; oldFiber !== null && newIdx < newChildren.length; newIdx++) {
     // 判断相对位置
     // old 1  2  3_  4
-    // new    1  2  3  4   _
+    // new    1  2  3  4
     if (oldFiber.index > newIdx) {
       nextOldFiber = oldFiber;
       oldFiber = null;
@@ -294,6 +295,10 @@ function reconcileChildren(returnFiber, newChildren) {
     // We've reached the end of the new children. We can delete the rest.
     // deleteRemainingChildren(returnFiber, oldFiber);
     // return resultingFirstChild;
+    
+    // 到了新孩子们的尽头。 可以删除其余。
+    // deleteRemainingChildren（returnFiber，oldFiber）;
+    // 返回ResultsFirstChild;
     while (oldFiber) {
       deletions.push({
         ...oldFiber,
@@ -333,7 +338,7 @@ function reconcileChildren(returnFiber, newChildren) {
   }
 
   // 3. 新老链表都有参数值
-  // 1->2-》3-》4->5
+  // 1->2->3->4->5
   // [1,2,3,4]
   // 生成map图，方便链表查找、设置和删除
   const existingChildren = mapRemainingChildren(returnFiber, oldFiber);
