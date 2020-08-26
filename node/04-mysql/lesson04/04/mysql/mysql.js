@@ -3,8 +3,8 @@ const mysql = require("mysql");
 const cfg = {
   host: "localhost",
   user: "root", 
-  password: "example", // 修改为你的密码
-  database: "kaikeba" // 请确保数据库存在
+  password: "123456", // 修改为你的密码
+  database: "mysql" // 请确保数据库存在
 };
 // 创建连接对象
 const conn = mysql.createConnection(cfg);
