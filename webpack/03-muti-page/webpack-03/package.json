@@ -6,6 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "mpa": "webpack --config ./webpack.mpa.config.js",
+    "ljfmpa": "webpack --config ./webpack.ljf.mpa.config.js",
     "server": "webpack-dev-server "
   },
   "keywords": [],
