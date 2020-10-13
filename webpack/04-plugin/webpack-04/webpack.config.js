@@ -4,7 +4,8 @@ const htmlWebpackPlugin = require("html-webpack-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const webpack = require("webpack");
 // const txtWebpackPlugin = require("./myPlugins/txt-webpack-plugin.js");
-const fileWebpackPlugin = require("./myPlugins/file-webpack-plugin.js");
+// const fileWebpackPlugin = require("./myPlugins/file-webpack-plugin.js");
+const fileListWebpackPlugin = require("./myPlugins/file-list-webpack-plugin.js");
 module.exports = {
   entry: "./src/index.js",
   output: {
@@ -76,7 +77,8 @@ module.exports = {
     //   filename: "css/index-[contenthash:6].css",
     // }),
     // new txtWebpackPlugin({ name: "老韩" }),
-    new fileWebpackPlugin(),
+    // new fileWebpackPlugin(),
+    new fileListWebpackPlugin(),
     new webpack.HotModuleReplacementPlugin(),
   ],
 };
