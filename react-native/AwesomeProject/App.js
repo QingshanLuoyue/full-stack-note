@@ -5,79 +5,95 @@
  * @format
  * @flow strict-local
  */
-// 暗号：建立清晰规范的数据处理流程
+// 暗号：明确状态归属，合理切分组件
 import 'react-native-gesture-handler';
 import React from 'react';
-import {View, Text, Button, StyleSheet, TextInput} from 'react-native';
-import {NavigationContainer} from '@react-navigation/native';
-import {createStackNavigator} from '@react-navigation/stack';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  StyleSheet,
+  Switch,
+  Dimensions,
+} from 'react-native';
 
-// 首页组件
-function HomeScreen({navigation}) {
-  const [username, setUsername] = React.useState('');
-  return (
-    <View style={styles.container}>
-      <Text>Home Screen</Text>
-      <Text>username：{username}</Text>
-      <Button
-        title="Go To UserNames"
-        onPress={() =>
-          // 传递 hook 参数给下一个屏幕，用于修改当前屏幕的值
-          navigation.navigate('UserNames', {username, setUsername})
-        }></Button>
-    </View>
-  );
-}
-
-// 输入用户名组件
-function UserNamesScreen({navigation, route}) {
-  // 前一屏传来的路由数据
-  const {username, setUsername} = route.params;
-
-  // 当前页面输入用户名
-  const [currentUsername, setCurrentUsername] = React.useState(username);
-  return (
-    <View style={styles.container}>
-      <Text>UserNames Screen</Text>
-      <TextInput
-        style={styles.inputName}
-        placeholder="input username"
-        value={currentUsername}
-        onChangeText={setCurrentUsername}></TextInput>
-      <Button
-        title="Confirm To Change And Back To Home"
-        onPress={() => {
-          // 修改、输入用户名之后，设置到前一屏中，并返回
-          setUsername(currentUsername);
-          navigation.goBack();
-        }}></Button>
-    </View>
-  );
-}
-
-const Stack = createStackNavigator();
+// 获取屏幕宽高
+const {width, height} = Dimensions.get('window');
+const cellWidth = width * 0.3;
 
 function App() {
+  // 是否单选
+  const [isSingle, setIsSingle] = React.useState(false);
+  // 是否选中
+  const [isSelectedIdx, setIsSelectedIdx] = React.useState(0);
   return (
-    <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen
-          name="Home"
-          options={{title: 'This is Home Page'}}
-          component={HomeScreen}
-        />
-        <Stack.Screen name="UserNames" component={UserNamesScreen} />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <View style={styles.container}>
+      <View style={styles.innerContainer}>
+        <Text>单选</Text>
+        <Switch
+          style={{marginLeft: 15}}
+          value={isSingle}
+          onValueChange={setIsSingle}></Switch>
+      </View>
+      <View style={styles.innerContainer}>
+        {isSingle
+          ? [...new Array(9)].map((_, i) => {
+              return (
+                <TouchableOpacity
+                  key={i}
+                  style={[
+                    styles.cell,
+                    isSelectedIdx === i && {backgroundColor: 'blue'},
+                  ]}
+                  onPress={() => {
+                    // 选中，则变色
+                    setIsSelectedIdx(i);
+                  }}>
+                  <Text>{i + 1}</Text>
+                </TouchableOpacity>
+              );
+            })
+          : [...new Array(9)].map((_, i) => {
+              return <Cell></Cell>;
+            })}
+      </View>
+    </View>
+  );
+}
+
+function Cell() {
+  const [selected, setSelected] = React.useState(false);
+  // 选择变色
+  return (
+    <TouchableOpacity
+      onPress={() => setSelected(!selected)}
+      style={[
+        styles.cell,
+        selected && {backgroundColor: 'blue'},
+      ]}></TouchableOpacity>
   );
 }
 
 export default App;
 
 const styles = StyleSheet.create({
-  container: {flex: 1, alignItems: 'center', justifyContent: 'center'},
-  inputName: {
-    borderColor: 'blue',
+  container: {
+    flex: 1,
+    alignItems: 'center',
+  },
+  innerContainer: {
+    marginTop: 50,
+    justifyContent: 'center',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+  },
+  cell: {
+    width: cellWidth,
+    height: cellWidth,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderColor: 'gray',
     borderWidth: 1,
   },
 });
