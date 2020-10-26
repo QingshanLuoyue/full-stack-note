@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_project/manager/Article.dart';
 
 class ArticleItem extends StatelessWidget {
-  
   final Article model;
 
   ArticleItem(this.model);
@@ -41,19 +40,18 @@ class ArticleItem extends StatelessWidget {
                       ),
                     ],
                   )
-                ], 
+                ],
               ),
               Container(
-                width: 80, height: 80,
+                width: 80,
+                height: 80,
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  image: DecorationImage(
-                    image: NetworkImage(model.articlePic),
-                    fit: BoxFit.cover
-                  ) 
-                ),
+                    borderRadius: BorderRadius.circular(10),
+                    image: DecorationImage(
+                        image: NetworkImage(model.articlePic),
+                        fit: BoxFit.cover)),
               )
-            ], 
+            ],
           ),
         ),
       ),
