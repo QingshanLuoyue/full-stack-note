@@ -7,6 +7,8 @@ import 'package:flutter_project/find/company.dart';
 import 'package:http/http.dart' as http;
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
+import 'package:flutter_project/find/DetailsScreen.dart';
+
 class FindScreen extends StatefulWidget {
   FindScreen({Key key}) : super(key: key);
 
@@ -84,7 +86,14 @@ class _FindScreenState extends State<FindScreen> {
           var model = _companies[index];
           return InkWell(
             child: CompanyItem(model),
-            onTap: () {},
+            onTap: () {
+              // 暗号：原来还可以这么玩
+              // 跳转详情页面
+              Navigator.push(
+                  context,
+                  new MaterialPageRoute(
+                      builder: (context) => new DetailsScreen('详情页面')));
+            },
           );
         },
         itemCount: _companies.length,
