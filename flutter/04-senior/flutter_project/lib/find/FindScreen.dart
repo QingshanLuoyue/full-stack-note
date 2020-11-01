@@ -154,6 +154,7 @@ class FindScreen extends StatefulWidget {
   _FindScreenState createState() => _FindScreenState();
 }
 
+// 暗号： 江湖再见
 class _FindScreenState extends State<FindScreen> {
   RefreshController _refreshController =
       RefreshController(initialRefresh: false);
@@ -162,7 +163,9 @@ class _FindScreenState extends State<FindScreen> {
   void initState() {
     super.initState();
 
-    //listen的含义
+    // 1、
+    // 使用 Provider 获取 companylist 实例
+    // 进行页面初次数据获取
     CompanyListProvider provider =
         Provider.of<CompanyListProvider>(context, listen: false);
     provider.refrshData();
@@ -176,6 +179,7 @@ class _FindScreenState extends State<FindScreen> {
           Center(
             child: CircularProgressIndicator(),
           ),
+          // 第三方刷新加载插件
           SmartRefresher(
             controller: _refreshController,
             enablePullDown: true,
@@ -214,6 +218,9 @@ class _FindScreenState extends State<FindScreen> {
   }
 
   void _onRefresh() async {
+    // 2、
+    // 使用 Provider 获取 companylist 实例
+    // 下拉刷新， companylist 实例获取数据
     CompanyListProvider provider =
         Provider.of<CompanyListProvider>(context, listen: false);
     bool isSuccess = await provider.refrshData();
@@ -225,6 +232,9 @@ class _FindScreenState extends State<FindScreen> {
   }
 
   void _onLoading() async {
+    // 3、
+    // 使用 Provider 获取 companylist 实例
+    // 上拉加载， companylist 实例获取数据
     CompanyListProvider provider =
         Provider.of<CompanyListProvider>(context, listen: false);
     bool isSuccess = await provider.loadMoreData();
