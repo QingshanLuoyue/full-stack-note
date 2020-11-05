@@ -1,0 +1,7 @@
+<!--index.wxml-->
+<view class="container">
+  <button type="primary" bindtap="btnScanCode">识别图书条形码</button>
+  <button type="primary" bindtap="btnGetWerun" style="margin-top:10px;">读取微信运动数据</button>
+  <image src="{{imageurl}}" mode="widthFix"></image>
+  <view>{{title}}</view>
+</view>
