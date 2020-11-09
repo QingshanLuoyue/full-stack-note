@@ -1,0 +1,4 @@
+<!--miniprogram/pages/testposter/testposter.wxml-->
+<canvas type="2d" id="myCanvas" style="height:300px;width:300px;"></canvas>
+
+<button type="primary" bindtap="btnSavePoster">保存海报</button>

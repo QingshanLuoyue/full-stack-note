@@ -1,0 +1,6 @@
+<!--miniprogram/pages/billboard/index.wxml-->
+<button type="primary" bindtap="btnGoPoster">生成海报</button>
+<button type="primary" bindtap="btnTestSubscribeMsg" style="margin-top:5px;">订阅消息</button>
+<button type="primary" bindtap="btnSendSubscribeMsg" style="margin-top:5px;">发送订阅消息</button>
+<button type="primary" bindtap="btnWechatPay" style="margin-top:5px;">微信支付</button>
+<button type="primary" bindtap="btnShowVideoAd" style="margin-top:5px;">激励视频广告</button>
